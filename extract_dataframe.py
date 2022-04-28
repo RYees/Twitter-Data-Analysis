@@ -8,10 +8,10 @@ import re
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 
-import zipfile
+# import zipfile
 
-with zipfile.ZipFile("./Data/Economic_Twitter_Data.zip", "r") as zip_ref:
-    zip_ref.extractall("./Data")
+# with zipfile.ZipFile("./Data/Economic_Twitter_Data.zip", "r") as zip_ref:
+#     zip_ref.extractall("./Data")
     
     
 def read_json(json_file: str) -> list:
@@ -168,7 +168,8 @@ class TweetDfExtractor:
 
 if __name__ == "__main__":
     # required column to be generated you should be creative and add more features
-    _, tweet_list2 = read_json("./data/Economic_Twitter_Data.json")
+    _, tweet_list2 = read_json("")
+#     ./data/Economic_Twitter_Data.json
     tweet_list = pd.DataFrame(tweet_list2).head(5)
     print(tweet_list["id"])
     tweet = TweetDfExtractor(tweet_list)
