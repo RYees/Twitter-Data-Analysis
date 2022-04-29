@@ -236,7 +236,11 @@ class TweetDfExtractor:
         print(np.max(df['retweets']))
         # TIME SERIES
         time_likes = pd.Series(data=df['likes'].values, index=df['date'])
-        time_likes.plot(figsize=(16,4), color='b')
+        time_likes.plot(figsize=(16,4), label='likes', legend=True)
+
+        time_retweets = pd.Series(data=df['retweets'].values, index=df['date'])
+        time_retweets.plot(figsize=(16,4), label='retweets', legend=True)
+
         plt.show()
 
 
@@ -269,6 +273,6 @@ if __name__ == "__main__":
     # # df = tweet.clean_tweet()
     # df = tweet.find_sentiments()
        
-    # tweet_df = tweet.get_tweet_df()
+    tweet_df = tweet.get_tweet_df()
 
 
