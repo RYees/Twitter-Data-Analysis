@@ -5,7 +5,7 @@ from textblob import TextBlob
 import numpy as np
 import re
 import matplotlib.pyplot as plt
-plt.style.use('fivethirtyeight')
+# plt.style.use('fivethirtyeight')
 
 # import zipfile
 
@@ -218,20 +218,27 @@ class TweetDfExtractor:
     def draw_plan(self) -> list:
         df = pd.DataFrame(data=[tweet.get("text") for tweet in self.tweets], columns=['Tweets'])
         df['id'] = np.array([tweet.get('id') for tweet in self.tweets])
+        df['len'] = np.array([len(tweet.get('text')) for tweet in self.tweets])
         df['lang'] = np.array([tweet.get('lang') for tweet in self.tweets])
         df['likes'] = np.array([tweet.get('favorite_count') for tweet in self.tweets])
-        df['reply'] = np.array([tweet.get('retweet_count') for tweet in self.tweets])
+        df['retweets'] = np.array([tweet.get('retweet_count') for tweet in self.tweets])
         df['date'] = np.array([tweet.get('created_at') for tweet in self.tweets])
         df['user'] = np.array([tweet.get('user') for tweet in self.tweets])
         df['entities'] = np.array([tweet.get('entities') for tweet in self.tweets])        
         df['hashtags'] = np.array([hash.get('hashtags') for hash in df['entities']])
-        df['user'] = np.array([df])
         df['statuses_count'] = np.array([hash.get('statuses_count') for hash in df['user']])
         
-        # print(df['statuses_count'].head(2))
+        # GET AVERAGE LENGTH OVER ALL TWEETS
+        print(np.mean(df['len']))
+        # GET THE NUMBER OF LIKES FOR THE MOST LIKED TWEET
+        print(np.max(df['likes']))
+        # GET THE NUMBER OF RETWEETS FOR HTE MOST RETWEETED TWEET
+        print(np.max(df['retweets']))
+        # TIME SERIES
+        time_likes = pd.Series(data=df['likes'].values, index=df['date'])
+        time_likes.plot(figsize=(16,4), color='b')
+        plt.show()
 
-        # print(df['text'])
-        return df
 
 
 if __name__ == "__main__":
@@ -244,6 +251,7 @@ if __name__ == "__main__":
     tweets = tweet_list
     # TweetDfExtractor = TweetDfExtractor()
     tweet = TweetDfExtractor(tweets)
+    df = tweet.draw_plan()
     # df = tweet.find_full_text()
     # # df = tweet.find_statuses_count()
     # df = tweet.find_created_time()
@@ -261,6 +269,6 @@ if __name__ == "__main__":
     # # df = tweet.clean_tweet()
     # df = tweet.find_sentiments()
        
-    tweet_df = tweet.get_tweet_df()
+    # tweet_df = tweet.get_tweet_df()
 
 
